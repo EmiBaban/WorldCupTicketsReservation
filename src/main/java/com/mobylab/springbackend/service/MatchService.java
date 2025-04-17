@@ -10,6 +10,7 @@ import com.mobylab.springbackend.repository.SeatRepository;
 import com.mobylab.springbackend.repository.StadiumRepository;
 import com.mobylab.springbackend.repository.TeamRepository;
 import com.mobylab.springbackend.service.dto.MatchDto;
+import com.mobylab.springbackend.service.dto.MatchResponseDto;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,24 @@ public class MatchService {
 
         matchRepository.save(match);
         generateSeatsForMatch(match);
+    }
+
+    public List<MatchResponseDto> getAllMatches() {
+        List<Match> matches = matchRepository.findAll();
+        List<MatchResponseDto> response = new ArrayList<>();
+
+        for (Match match : matches) {
+            response.add(new MatchResponseDto(
+                    match.getId(),
+                    match.getStadium().getName(),
+                    match.getHomeTeam().getName(),
+                    match.getAwayTeam().getName(),
+                    match.getReferee(),
+                    match.getSeatPrice(),
+                    match.getDateTime()
+            ));
+        }
+        return response;
     }
 
 

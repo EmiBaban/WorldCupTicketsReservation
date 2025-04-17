@@ -4,6 +4,7 @@ import com.mobylab.springbackend.service.MatchService;
 import com.mobylab.springbackend.service.SeatService;
 import com.mobylab.springbackend.service.StadiumService;
 import com.mobylab.springbackend.service.dto.MatchDto;
+import com.mobylab.springbackend.service.dto.MatchResponseDto;
 import com.mobylab.springbackend.service.dto.SeatDto;
 import com.mobylab.springbackend.service.dto.SelectSeatRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,4 +44,8 @@ public class MatchController implements SecuredRestController {
         return ResponseEntity.ok("Locul a fost selectat temporar.");
     }
 
+    @GetMapping("/getAllMatches")
+    public ResponseEntity<List<MatchResponseDto>> getAllMatches() {
+        return ResponseEntity.ok(matchService.getAllMatches());
+    }
 }
