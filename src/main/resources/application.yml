@@ -22,6 +22,18 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 2525
+    username: 897999b117c974
+    password: 02936c73dee691
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 vars:
   security:

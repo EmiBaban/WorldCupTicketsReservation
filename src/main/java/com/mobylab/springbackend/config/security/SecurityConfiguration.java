@@ -19,7 +19,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
 public class SecurityConfiguration {
 
     @Value("${vars.security.enable}")
@@ -36,7 +35,8 @@ public class SecurityConfiguration {
         if (securityEnabled) {
            http.authorizeHttpRequests(auth -> auth
                    .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register",
-                           "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                           "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/api/v1/teams", "/api/v1/users/**",
+                           "/api/v1/stadiums/**", "/api/v1/match/**", "/api/v1/payments/**", "/send-email", "/api/v1/test/**", "/api/v1/tickets/**").permitAll()
                    .anyRequest().authenticated())
                    .exceptionHandling((exception)-> exception.authenticationEntryPoint(authEntryPoint))
                    .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

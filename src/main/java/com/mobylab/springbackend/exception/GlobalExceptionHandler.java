@@ -34,4 +34,26 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorObject, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler({UnauthorizedException.class})
+    public ResponseEntity<ErrorObject> handleUnauthorized(RuntimeException ex, WebRequest request) {
+        ErrorObject errorObject = new ErrorObject();
+
+        errorObject
+                .setStatusCode(HttpStatus.UNAUTHORIZED.value())
+                .setMessage(ex.getMessage())
+                .setTimestamp(LocalDateTime.now());
+        return new ResponseEntity<>(errorObject, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler({NotFoundException.class})
+    public ResponseEntity<ErrorObject> handleNotFound(RuntimeException ex, WebRequest request) {
+        ErrorObject errorObject = new ErrorObject();
+
+        errorObject
+                .setStatusCode(HttpStatus.NOT_FOUND.value())
+                .setMessage(ex.getMessage())
+                .setTimestamp(LocalDateTime.now());
+        return new ResponseEntity<>(errorObject, HttpStatus.NOT_FOUND);
+    }
+
 }

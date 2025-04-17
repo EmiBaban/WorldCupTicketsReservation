@@ -1,5 +1,6 @@
 package com.mobylab.springbackend.entity;
 
+import com.mobylab.springbackend.enums.SeatStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,30 +10,25 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tickets")
+@Table(name = "seats")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Ticket {
+public class Seat {
 
     @Id
     @GeneratedValue()
     private UUID id;
 
-    @ManyToOne
-    private User user;
+    private String row;
+    private int number;
+
+    @Enumerated(EnumType.STRING)
+    private SeatStatus status; // LIBER / OCUPAT / SELECTAT
+    @Column(name = "selected_at")
+    private LocalDateTime selectedAt;
 
     @ManyToOne
     private Match match;
-
-    @OneToOne
-    private Seat seat;
-
-    private Double price;
-
-    private LocalDateTime purchaseTime;
-
-    @ManyToOne
-    @JoinColumn(name = "payment_id")
-    private Payment payment;
 }
+

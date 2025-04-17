@@ -6,33 +6,31 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tickets")
+@Table(name = "payments")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Ticket {
+public class Payment {
 
     @Id
     @GeneratedValue()
     private UUID id;
 
+    private LocalDateTime timestamp;
+
+    private Double amount;
+
+    private String paymentMethod;
+
+    private Boolean isPaid;
+
     @ManyToOne
     private User user;
 
-    @ManyToOne
-    private Match match;
-
-    @OneToOne
-    private Seat seat;
-
-    private Double price;
-
-    private LocalDateTime purchaseTime;
-
-    @ManyToOne
-    @JoinColumn(name = "payment_id")
-    private Payment payment;
+    @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL)
+    private List<Ticket> tickets;
 }
