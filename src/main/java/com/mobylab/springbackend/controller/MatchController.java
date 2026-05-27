@@ -3,15 +3,16 @@ package com.mobylab.springbackend.controller;
 import com.mobylab.springbackend.service.MatchService;
 import com.mobylab.springbackend.service.SeatService;
 import com.mobylab.springbackend.service.StadiumService;
-import com.mobylab.springbackend.service.dto.MatchDto;
-import com.mobylab.springbackend.service.dto.MatchResponseDto;
-import com.mobylab.springbackend.service.dto.SeatDto;
-import com.mobylab.springbackend.service.dto.SelectSeatRequest;
+import com.mobylab.springbackend.service.dto.*;
+import org.hibernate.query.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 import java.util.UUID;
@@ -47,5 +48,14 @@ public class MatchController implements SecuredRestController {
     @GetMapping("/getAllMatches")
     public ResponseEntity<List<MatchResponseDto>> getAllMatches() {
         return ResponseEntity.ok(matchService.getAllMatches());
+    }
+
+    @GetMapping("/paged")
+//    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<org.springframework.data.domain.Page<MatchResponseDto>> GetPagedMatches(@RequestParam(defaultValue = "0") int page,
+                                                                                                  @RequestParam(defaultValue = "10") int size,
+                                                                                                  @RequestParam(required = false) String search) {
+        org.springframework.data.domain.Page<MatchResponseDto> matchesPaged = matchService.getMatchesPaged(page, size, search);
+        return ResponseEntity.ok(matchesPaged);
     }
 }

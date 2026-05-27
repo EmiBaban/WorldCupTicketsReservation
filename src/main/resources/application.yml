@@ -5,6 +5,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: postgres
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 5MB
+      max-request-size: 5MB
   jpa:
     properties:
       hibernate:
@@ -34,10 +39,16 @@ spring:
           auth: true
           starttls:
             enable: true
+springdoc:
+  api-docs:
+    path: /swagger/v1/swagger.json
+
+file:
+  upload-dir: uploads/
 
 vars:
   security:
-    enable: true
+    enable: false
 
 server:
   port: 8090

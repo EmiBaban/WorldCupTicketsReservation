@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -35,5 +36,7 @@ public class TicketService {
         )).toList();
     }
 
-
+    public void deleteTicket(UUID id) {
+        ticketRepository.deleteById(id);
+    }
 }

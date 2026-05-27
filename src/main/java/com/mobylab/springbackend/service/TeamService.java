@@ -5,6 +5,10 @@ import com.mobylab.springbackend.exception.NotFoundException;
 import com.mobylab.springbackend.repository.TeamRepository;
 import com.mobylab.springbackend.service.dto.TeamDto;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +24,7 @@ public class TeamService {
     public TeamService(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
     }
+
 
     public List<TeamDto> getAllTeams() {
         return teamRepository.findAll().stream()

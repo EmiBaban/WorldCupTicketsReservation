@@ -7,11 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StadiumDto {
+public class AddStadiumDto {
     private String name;
     private int capacity;
     private String description;
     private String country;
     private String city;
-    private String imageUrl;
 }

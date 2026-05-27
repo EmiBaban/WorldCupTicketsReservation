@@ -1,6 +1,5 @@
-package com.mobylab.springbackend.entity;
+package com.mobylab.springbackend.service.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,16 +7,10 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Feedback {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
-
+public class FeedbackDto {
     private String category;
     private String message;
     private int rating;

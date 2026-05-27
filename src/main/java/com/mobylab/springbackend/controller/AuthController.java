@@ -35,21 +35,25 @@ public class AuthController {
         return new ResponseEntity<>("User registered", HttpStatus.CREATED);
     }
 
-    @RequestMapping(path ="/login", method = RequestMethod.POST)
-    public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto loginDto) {
         logger.info("Request to login for user {}", loginDto.getEmail());
         String token = authService.login(loginDto);
+
+        LoginResponseDto response = new LoginResponseDto().setToken(token);
         logger.info("Successfully logged in user {}", loginDto.getEmail());
-        return new ResponseEntity<>(loginResponseDto.setToken(token), HttpStatus.OK);
+
+        return ResponseEntity.ok(response);
     }
 
     @SecurityRequirement(name = "Bearer Authentication")
     @RequestMapping(path ="/token", method = RequestMethod.GET)
     public ResponseEntity<?> validateToken() {
-        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails user = authService.getPrincipal();
         logger.info("Request to validate token for user {}", user.getUsername());
         String email = user.getUsername();
         logger.info("Successfully validated token for user {}", user.getUsername());
         return new ResponseEntity<>(email, HttpStatus.OK);
     }
+
 }

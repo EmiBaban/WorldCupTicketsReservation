@@ -8,16 +8,27 @@ import com.mobylab.springbackend.repository.RoleRepository;
 import com.mobylab.springbackend.repository.UserRepository;
 import com.mobylab.springbackend.service.dto.LoginDto;
 import com.mobylab.springbackend.service.dto.RegisterDto;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.objenesis.ObjenesisHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +49,7 @@ public class AuthService {
     @Autowired
     private JwtGenerator jwtGenerator;
 
+    Logger logger = LoggerFactory.getLogger(AuthService.class);
 
     public void register(RegisterDto registerDto) {
 
@@ -60,13 +72,18 @@ public class AuthService {
         if(optionalUser.isEmpty()) {
             throw new BadRequestException("Wrong credentials");
         }
-
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDto.getEmail(),
                         loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return jwtGenerator.generateToken(authentication);
 
+        return jwtGenerator.generateToken(authentication);
+    }
+
+    public UserDetails getPrincipal() {
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        logger.info("BLAAAAAA {}", user.getUsername());
+        return user;
     }
 }

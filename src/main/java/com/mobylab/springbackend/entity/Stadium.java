@@ -19,6 +19,8 @@ public class Stadium {
 
     private String name;
     private int capacity;
+    private String country;
+    private String city;
     private String description;
-//    private String imageUrl;
+    private String imageUrl;
 }
